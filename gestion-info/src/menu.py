@@ -1,52 +1,74 @@
-"""
-menu.py — Interfaz de consola (UI)
-Muestra el menú principal e invoca la lógica del sistema.
-"""
-
 from service import (
     create_user,
     list_users,
     update_user,
     delete_user,
 )
-from integration import generate_fake_users
+
+users = []
+ids = set()
 
 
 def show_menu():
-    """Bucle principal del menú interactivo."""
-    options = {
-        "1": ("Crear usuario", create_user),
-        "2": ("Listar usuarios", list_users),
-        "3": ("Actualizar usuario", update_user),
-        "4": ("Eliminar usuario", delete_user),
-        "5": ("Generar usuarios de prueba (Faker)", _generate_users),
-        "0": ("Salir", None),
-    }
-
     while True:
         print("\n--- MENÚ PRINCIPAL ---")
-        for key, (label, _) in options.items():
-            print(f"  [{key}] {label}")
+        print("1. Crear usuario")
+        print("2. Listar usuarios")
+        print("3. Actualizar usuario")
+        print("4. Eliminar usuario")
+        print("0. Salir")
 
-        choice = input("\nElige una opción: ").strip()
+        option = input("Elige una opción: ").strip()
 
-        if choice == "0":
-            print("Hasta luego 👋")
-            break
-        elif choice in options:
-            _, action = options[choice]
+        if option == "1":
             try:
-                action()
-            except Exception as e:
-                print(f"[ERROR] Ocurrió un problema: {e}")
+                id_user = int(input("ID: "))
+                name = input("Nombre: ")
+                email = input("Correo: ")
+
+                user = {
+                    "id": id_user,
+                    "name": name,
+                    "email": email
+                }
+
+                if create_user(users, ids, user):
+                    print("Usuario creado")
+                else:
+                    print("ID duplicado")
+
+            except ValueError:
+                print("Datos inválidos")
+
+        elif option == "2":
+            data = list_users(users)
+            for u in data:
+                print(u)
+
+        elif option == "3":
+            try:
+                id_user = int(input("ID a actualizar: "))
+                name = input("Nuevo nombre: ")
+
+                if update_user(users, id_user, {"name": name}):
+                    print("Actualizado")
+                else:
+                    print("Usuario no encontrado")
+
+            except ValueError:
+                print("Error")
+
+        elif option == "4":
+            try:
+                id_user = int(input("ID a eliminar: "))
+                users[:] = delete_user(users, id_user)
+                print("Eliminado")
+            except ValueError:
+                print("Error")
+
+        elif option == "0":
+            print("Hasta luego")
+            break
+
         else:
-            print("Opción no válida. Intenta de nuevo.")
-
-
-def _generate_users():
-    """Wrapper para solicitar cuántos usuarios generar."""
-    try:
-        n = int(input("¿Cuántos usuarios falsos deseas generar? "))
-        generate_fake_users(n)
-    except ValueError:
-        print("Debes ingresar un número entero.")
+            print("Opción inválida")
