@@ -1,12 +1,17 @@
-# ⚙ User Registry Manager
+# Sistema de Gestión de Usuarios
 
 Este sistema CRUD permite gestionar el ciclo de vida de usuarios mediante consola, garantizando la persistencia de datos en archivos JSON.
 
-## 📋 Descripción
+## Descripción
 
-Permite registrar, consultar, actualizar y eliminar usuarios de una organización. Los datos se guardan automáticamente en `data/records.json`. Incluye generación de usuarios de prueba con **Faker** para la generación masiva de perfiles de prueba y validación de flujos.
+El sistema permite registrar, consultar, actualizar y eliminar usuarios de una organización.
+Los datos se almacenan automáticamente en el archivo `data/records.json`.
 
-## ✒ Estructura del proyecto
+Además, incluye la generación de usuarios de prueba mediante la librería Faker, lo que permite simular datos reales y facilitar pruebas del sistema.
+
+---
+
+## Estructura del proyecto
 
 ```
 gestion-info/
@@ -20,64 +25,94 @@ gestion-info/
     ├── menu.py               # Interfaz de consola
     ├── service.py            # Lógica CRUD
     ├── file.py               # Persistencia JSON
-    ├── validate.py           # Validaciones y helpers
+    ├── validate.py           # Validaciones y utilidades
     └── integration.py        # Integración con Faker
 ```
 
-## ⚙️ Requisitos
+---
 
-- Python 3.10 o superior
-- pip
+## Requisitos
 
-## 🚀 Cómo correr el programa
+* Python 3.10 o superior
+* pip
 
-### 1. Clona el repositorio
+---
 
-```bash
+## Cómo ejecutar el programa
+
+### 1. Clonar el repositorio
+
+```
 git clone https://github.com/tu-usuario/gestion-info.git
 cd gestion-info
 ```
 
-### 2. Crea un entorno virtual (recomendado)
+### 2. Crear un entorno virtual (opcional pero recomendado)
 
-```bash
+```
 python -m venv venv
+
 # Windows:
 venv\Scripts\activate
+
 # macOS / Linux:
 source venv/bin/activate
 ```
 
-### 3. Instala las dependencias
+### 3. Instalar dependencias
 
-```bash
+```
 pip install -r requirements.txt
 ```
 
-### 4. Ejecuta el programa
+### 4. Ejecutar el programa
 
-```bash
+```
 cd src
 python main.py
 ```
 
-## 🧩 Funcionalidades
+---
 
-| Opción | Descripción |
-|--------|-------------|
-| `[1]` Crear usuario | Ingresa nombre, email, edad y rol |
-| `[2]` Listar usuarios | Muestra todos los usuarios en tabla |
-| `[3]` Actualizar usuario | Edita campos por ID |
-| `[4]` Eliminar usuario | Elimina por ID con confirmación |
-| `[5]` Generar con Faker | Crea N usuarios de prueba automáticamente |
-| `[0]` Salir | Termina el programa |
+## Funcionalidades
 
-## 🏷️ Tags de módulos
+| Opción | Descripción        |
+| ------ | ------------------ |
+| 1      | Crear usuario      |
+| 2      | Listar usuarios    |
+| 3      | Buscar usuario     |
+| 4      | Actualizar usuario |
+| 5      | Eliminar usuario   |
+| 0      | Salir              |
 
-| Tag | Descripción |
-|-----|-------------|
-| `m0-setup` | Estructura base y "Sistema listo" |
+---
 
-## 📦 Librerías externas
+## Tecnologías y conceptos utilizados
 
-- [`faker`](https://faker.readthedocs.io/) — Generación de datos falsos realistas en español
+* Python
+* Estructuras de datos (listas, diccionarios, sets)
+* Programación modular
+* Manejo de archivos JSON
+* Manejo de excepciones (`try-except`)
+* List comprehensions
+* Funciones lambda
+* Librerías externas (Faker)
+
+---
+
+## Librerías externas
+
+* Faker: generación de datos de prueba realistas
+
+---
+
+## Etiquetas de desarrollo
+
+| Tag      | Descripción                      |
+| -------- | -------------------------------- |
+| m0-setup | Estructura base del proyecto     |
+| m1-data  | Manejo de datos en memoria       |
+| m2-files | Persistencia en archivos         |
+| m3-crud  | Implementación completa del CRUD |
+
+---
