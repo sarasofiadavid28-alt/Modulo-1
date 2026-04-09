@@ -1,3 +1,6 @@
+from colorama import Fore, Style, init
+init(autoreset=True)
+
 from service import (
     create_user,
     list_users,
