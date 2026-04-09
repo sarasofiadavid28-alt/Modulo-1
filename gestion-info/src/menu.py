@@ -6,72 +6,121 @@ from service import (
     list_users,
     update_user,
     delete_user,
+    search_user,
 )
-
-users = []
-ids = set()
 
 
 def show_menu():
     while True:
-        print("\n--- MENÚ PRINCIPAL ---")
+        print("\n" + Fore.CYAN + "--- MENÚ PRINCIPAL ---")
         print("1. Crear usuario")
         print("2. Listar usuarios")
-        print("3. Actualizar usuario")
-        print("4. Eliminar usuario")
+        print("3. Buscar usuario")
+        print("4. Actualizar usuario")
+        print("5. Eliminar usuario")
         print("0. Salir")
 
         option = input("Elige una opción: ").strip()
 
+        # VALIDACIÓN BÁSICA
+        if not option.isdigit():
+            print(Fore.RED + "Debe ingresar un número")
+            continue
+
+        # ───────────── CREAR ─────────────
         if option == "1":
             try:
-                id_user = int(input("ID: "))
                 name = input("Nombre: ")
                 email = input("Correo: ")
+                age = input("Edad: ")
+                role = input("Rol: ")
 
-                user = {
-                    "id": id_user,
+                user_data = {
                     "name": name,
-                    "email": email
+                    "email": email,
+                    "age": age,
+                    "role": role
                 }
 
-                if create_user(users, ids, user):
-                    print("Usuario creado")
-                else:
-                    print("ID duplicado")
+                user = create_user(user_data)
+                print(Fore.GREEN + f"Usuario creado con ID: {user['id']}")
 
-            except ValueError:
-                print("Datos inválidos")
+            except ValueError as e:
+                print(Fore.RED + f"Error: {e}")
 
+        # ───────────── LISTAR ─────────────
         elif option == "2":
-            data = list_users(users)
-            for u in data:
-                print(u)
+            users = list_users()
 
+            if not users:
+                print(Fore.YELLOW + "No hay usuarios")
+            else:
+                for u in users:
+                    print(Fore.CYAN + f"""
+ID: {u['id']}
+Nombre: {u['name']}
+Email: {u['email']}
+Edad: {u['age']}
+Rol: {u['role']}
+-----------------------
+""")
+
+        # ───────────── BUSCAR ─────────────
         elif option == "3":
-            try:
-                id_user = int(input("ID a actualizar: "))
-                name = input("Nuevo nombre: ")
+            user_id = input("ID: ")
 
-                if update_user(users, id_user, {"name": name}):
-                    print("Actualizado")
-                else:
-                    print("Usuario no encontrado")
+            user = search_user(user_id)
 
-            except ValueError:
-                print("Error")
+            if user:
+                print(Fore.GREEN + f"""
+Usuario encontrado:
+ID: {user['id']}
+Nombre: {user['name']}
+Email: {user['email']}
+Edad: {user['age']}
+Rol: {user['role']}
+""")
+            else:
+                print(Fore.RED + "Usuario no encontrado")
 
+        # ───────────── ACTUALIZAR ─────────────
         elif option == "4":
             try:
-                id_user = int(input("ID a eliminar: "))
-                users[:] = delete_user(users, id_user)
-                print("Eliminado")
-            except ValueError:
-                print("Error")
+                user_id = input("ID a actualizar: ")
+                name = input("Nuevo nombre (opcional): ")
+                age = input("Nueva edad (opcional): ")
+                role = input("Nuevo rol (opcional): ")
 
+                new_data = {}
+
+                if name:
+                    new_data["name"] = name
+                if age:
+                    new_data["age"] = int(age)
+                if role:
+                    new_data["role"] = role
+
+                if update_user(user_id, new_data):
+                    print(Fore.GREEN + "Usuario actualizado")
+                else:
+                    print(Fore.RED + "Usuario no encontrado")
+
+            except ValueError as e:
+                print(Fore.RED + f"Error: {e}")
+
+        # ───────────── ELIMINAR ─────────────
+        elif option == "5":
+            user_id = input("ID a eliminar: ")
+
+            if delete_user(user_id):
+                print(Fore.GREEN + "Usuario eliminado")
+            else:
+                print(Fore.RED + "Usuario no encontrado")
+
+        # ───────────── SALIR ─────────────
         elif option == "0":
-            print("Hasta luego")
+            print(Fore.CYAN + "Hasta luego")
             break
 
         else:
-            print("Opción inválida")
+            print(Fore.RED + "Opción inválida")
