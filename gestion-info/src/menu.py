@@ -9,7 +9,6 @@ from service import (
     search_user,
 )
 
-
 def show_menu():
     while True:
         print("\n" + Fore.CYAN + "--- MENÚ PRINCIPAL ---")
@@ -18,6 +17,7 @@ def show_menu():
         print("3. Buscar usuario")
         print("4. Actualizar usuario")
         print("5. Eliminar usuario")
+        print("6. Generar usuarios de prueba")
         print("0. Salir")
 
         option = input("Elige una opción: ").strip()
@@ -68,7 +68,6 @@ Rol: {u['role']}
         # ───────────── BUSCAR ─────────────
         elif option == "3":
             user_id = input("ID: ")
-
             user = search_user(user_id)
 
             if user:
@@ -116,6 +115,13 @@ Rol: {user['role']}
                 print(Fore.GREEN + "Usuario eliminado")
             else:
                 print(Fore.RED + "Usuario no encontrado")
+
+        # ───────────── GENERAR USUARIOS FALSOS ─────────────
+        elif option == "6":
+            from integration import generate_fake_users
+            users = generate_fake_users(10)
+            if users:
+                print(Fore.GREEN + f"Se generaron {len(users)} usuarios de prueba.")
 
         # ───────────── SALIR ─────────────
         elif option == "0":
