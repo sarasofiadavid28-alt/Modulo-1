@@ -7,26 +7,25 @@ import uuid
 from file import load_records, save_records
 from validate import validate_user
 
-
 # ── Helpers internos ─────────────────────────────────────────
 
 def _get_all() -> list:
     return load_records()
 
-
 def _save_all(users: list) -> None:
     save_records(users)
-
 
 def _find_by_id(users: list, user_id: str) -> dict | None:
     matches = [u for u in users if u["id"] == user_id]
     return matches[0] if matches else None
 
-
 # ── CRUD ─────────────────────────────────────────────────────
 
-def create_user(user_data: dict) -> dict:
-    """Crea un nuevo usuario"""
+def create_user(user_data: dict = None, **kwargs) -> dict:
+    """Crea un nuevo usuario. Acepta diccionario o kwargs directamente."""
+    if user_data is None:
+        user_data = kwargs
+
     user = {
         "id": str(uuid.uuid4())[:8],
         "name": user_data.get("name", ""),
@@ -52,17 +51,14 @@ def create_user(user_data: dict) -> dict:
 
     return user
 
-
 def list_users() -> list:
     """Retorna todos los usuarios"""
     return _get_all()
-
 
 def search_user(user_id: str) -> dict | None:
     """Buscar usuario por ID"""
     users = _get_all()
     return _find_by_id(users, user_id)
-
 
 def update_user(user_id: str, new_data: dict) -> bool:
     """Actualizar usuario"""
@@ -80,7 +76,6 @@ def update_user(user_id: str, new_data: dict) -> bool:
 
     _save_all(users)
     return True
-
 
 def delete_user(user_id: str) -> bool:
     """Eliminar usuario"""
