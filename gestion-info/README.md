@@ -116,3 +116,34 @@ python main.py
 | m3-crud  | Implementación completa del CRUD |
 
 ---
+
+## Pruebas
+
+Este proyecto usa `pytest` para las pruebas unitarias.
+
+### Cómo ejecutar las pruebas
+
+#### 1. Instalar dependencias
+```bash
+pip install -r requirements.txt
+```
+
+#### 2. Correr las pruebas
+```bash
+cd gestion-info
+pytest tests/
+```
+
+#### 3. Ver resultado detallado
+```bash
+pytest tests/ -v
+```
+
+### Pruebas incluidas
+
+| Prueba | Descripción |
+|---|---|
+| `test_validate_user_valid` | Verifica que un usuario válido no genera errores |
+| `test_validate_user_invalid_email` | Verifica que un email inválido es rechazado |
+| `test_validate_user_invalid_age` | Verifica que una edad inválida es rechazada |
+| `test_create_user` | Verifica que un usuario se crea correctamente |
